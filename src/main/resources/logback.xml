@@ -1,0 +1,50 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%level] %logger{15} - %message%n%xException{5}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="APP_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- hourly rollover -->
+            <fileNamePattern>${logger.home}/logs/app.%d{yy-MM-dd_HH}.log</fileNamePattern>
+            <!-- keep 30 days of history -->
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date - [%level][%thread] %message%xException%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="PERFORMANCE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logger.home}/logs/performance.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- hourly rollover -->
+            <fileNamePattern>${logger.home}/logs/performance.%d{yy-MM-dd_HH}.log</fileNamePattern>
+
+            <!-- keep 30 days of history -->
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder immediateFlush="false">
+            <pattern>%date - [%level][%thread] %message%xException%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC_GENERAL_LOG" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="APP_LOG" />
+    </appender>
+
+    <appender name="ASYNC_PERF_LOG" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="PERFORMANCE_LOG" />
+    </appender>
+
+    <logger name="performance" level="ALL" additivity="false">
+        <appender-ref ref="ASYNC_PERF_LOG" />
+    </logger>
+
+    <root level="ALL">
+        <appender-ref ref="ASYNC_GENERAL_LOG" />
+    </root>
+</configuration>
