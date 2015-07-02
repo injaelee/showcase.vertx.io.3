@@ -14,8 +14,9 @@ public class MainVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> future) throws Exception {
         vertx.deployVerticle(HttpServerVerticle.class.getCanonicalName());
+
         vertx.deployVerticle(
                 DataWorkerVerticle.class.getCanonicalName(),
-                new DeploymentOptions().setInstances(10));
+                new DeploymentOptions().setInstances(10).setWorker(true));
     }
 }
