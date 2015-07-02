@@ -8,5 +8,5 @@ java -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDe
 
 ## Test with Apache AB
 ```
-ab -n 10000 -c 10 -p post.data -T application/json "http://localhost:10080/v1/fetch/1"
+ab -n 10000 -c 5 -p post.data -T application/json "http://localhost:10080/v1/fetch/1"
 ```
