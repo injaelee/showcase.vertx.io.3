@@ -25,7 +25,7 @@ public class DataWorker implements Handler<Message<String>> {
     private void randomWait() {
 
         if (waitFactor > 0) {
-            long sleepTime = Math.abs((long)(RANDOM.nextGaussian() * 100L));
+            long sleepTime = Math.abs((long)(RANDOM.nextGaussian() * waitFactor));
             logger.info("Sleeping for [" + sleepTime + "]ms");
             try {
                 Thread.sleep(sleepTime);
